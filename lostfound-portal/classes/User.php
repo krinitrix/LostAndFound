@@ -9,7 +9,7 @@ class User {
         $this->conn = $db->connect();
     }
 
-    // Register a new user (plain password)
+    // Register
     public function register($name, $email, $password) {
         // Check if email already exists
         $check = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
@@ -18,15 +18,15 @@ class User {
         $res = $check->get_result();
 
         if ($res->num_rows > 0) {
-            return "exists"; // Email already registered
+            return "exists"; 
         }
 
-        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, role, created_at) VALUES (?, ?, ?, 'student', NOW())");
+        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'student')");
         $stmt->bind_param("sss", $name, $email, $password);
         return $stmt->execute();
     }
 
-    // Login existing user (plain password match)
+    // Login 
     public function login($email, $password) {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
         $stmt->bind_param("ss", $email, $password);
@@ -38,10 +38,10 @@ class User {
     }
 
     // (Optional) Get user details by ID
-    public function getUserById($id) {
+   /* public function getUserById($id) {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE user_id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
-    }
+    }*/ 
 }
