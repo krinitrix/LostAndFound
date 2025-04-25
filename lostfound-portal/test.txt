@@ -1,0 +1,7 @@
+[prompt]:
+<?php if ($item['status'] === 'lost'): ?>
+                <form method="post" action="mark_found.php" style="display:inline;">
+                    <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                    <button type="submit">Mark as Found</button>
+                </form>
+            <?php endif; ?>// i want to call a function public function closeItem($item_id) . when clicking the button . so optimise the code
