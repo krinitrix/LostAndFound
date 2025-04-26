@@ -10,12 +10,12 @@ class FoundItem {
     }
 
     // Post a new found item
-    public function postFoundItem($user_id, $item_name, $description, $location_found, $date_found) {
+    public function postFoundItem($user_id, $description, $location_found,$item_id) {
         $stmt = $this->conn->prepare(
-            "INSERT INTO found_items (user_id, item_name, description, location_found, date_found)
-             VALUES (?, ?, ?, ?, ?)"
+            "INSERT INTO found_items (user_id, description, location_found,matched_item_id)
+             VALUES (?, ?, ?,?)"
         );
-        $stmt->bind_param("issss", $user_id, $item_name, $description, $location_found, $date_found);
+        $stmt->bind_param("issi", $user_id,$description, $location_found, $item_id);
         return $stmt->execute();
     }
 
