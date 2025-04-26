@@ -27,8 +27,30 @@ $allLostItems = $lostItem->getAllOpenItems();
 <html>
 <head>
     <title>User Dashboard</title>
+    <link rel="stylesheet" href="../assets/css/dash_popup.css">
+    
 </head>
 <body>
+<!-- form -->
+<div class="popup-overlay" id="popup">
+    <div class="popup-container">
+      <h2>Popup Form</h2>
+      <form>
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" id="name" placeholder="Enter your name" required>
+        </div>
+        <div style="margin-top: 10px;">
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <button type="submit" style="margin-top: 15px;">Submit</button>
+      </form>
+      <button class="close-popup-btn" onclick="closePopup()">Close</button>
+    </div>
+  </div>
+  <!-- form end -->
+   <div id="main-content">
     <h2>Welcome, <?php echo htmlspecialchars($name); ?>!</h2>
 
     <a href="logout.php">Logout</a>
@@ -65,14 +87,17 @@ $allLostItems = $lostItem->getAllOpenItems();
             <br>
             description: <?php echo htmlspecialchars($item['description']); ?>)
             <?php if ($item['status'] === 'lost'): ?>
-                <form method="post" action="mark_found.php" style="display:inline;">
+                <form method="post" action="" style="display:inline;">
                     <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
-                    <button type="submit">Mark as Found</button>
+                    <button type=submit class="open-popup-btn" onclick="openPopup()">Mark as Found</button>   
                 </form>
+                
             <?php endif; ?>
         </li>
     <?php endwhile; ?>
 </ul>
+</div>
 </body>
 </html>
 
+<script src="../assets/js/popup.js"></script>

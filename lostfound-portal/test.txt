@@ -5,3 +5,11 @@
                     <button type="submit">Mark as Found</button>
                 </form>
             <?php endif; ?>// i want to call a function public function closeItem($item_id) . when clicking the button . so optimise the code
+
+[prompt] 
+<form method="post" action="" style="display:inline;">
+                    <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                    <button type=submit class="open-popup-btn" onclick="openPopup()">Mark as Found</button>   
+</form>
+ 
+// how to silently send data without reloading page when clicking submit button
