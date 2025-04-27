@@ -82,22 +82,26 @@ $allLostItems = $lostItem->getAllOpenItems();
                     <?php if ($allLostItems->num_rows > 0): ?>
                         <?php while ($item = $allLostItems->fetch_assoc()): ?>
                             <li class="item-card">
-                                <div class="item-header">
-                                    <span class="item-name"><?php echo htmlspecialchars($item['item_name']); ?></span>
-                                    <span class="item-status 
-                                        <?php if ($item['status'] === 'lost'): ?>status-lost
-                                        <?php elseif ($item['status'] === 'pending'): ?>status-pending
-                                        <?php elseif ($item['status'] === 'found'): ?>status-found
-                                        <?php else: ?>status-rejected<?php endif; ?>">
-                                        <?php 
-                                            if ($item['status'] === 'pending') {
-                                                echo 'Pending Confirmation';
-                                            } else {
-                                                echo ucfirst($item['status']);
-                                            }
-                                        ?>
-                                    </span>
-                                </div>
+                            <div class="item-header">
+    
+    <div class="item-name">
+        <strong>Item:</strong> <?php echo htmlspecialchars($item['item_name']); ?>
+    </div>
+    <div class="item-status 
+        <?php if ($item['status'] === 'lost'): ?>status-lost
+        <?php elseif ($item['status'] === 'pending'): ?>status-pending
+        <?php elseif ($item['status'] === 'found'): ?>status-found
+        <?php else: ?>status-rejected<?php endif; ?>">
+        <?php 
+            if ($item['status'] === 'pending') {
+                echo 'Pending Confirmation';
+            } else {
+                echo ucfirst($item['status']);
+            }
+        ?>
+    </div>
+</div>
+
                                 
                                 <div class="item-details">
                                     Lost at: <?php echo htmlspecialchars($item['location_lost']); ?>
@@ -116,7 +120,9 @@ $allLostItems = $lostItem->getAllOpenItems();
                                         onclick="openPopup(this)">
                                         Mark as Found
                                     </button>
+                                    <div style="float:right;"><span style="font-size: 12px;font-style:italic;">posted by <strong><?php echo htmlspecialchars($item['name']); ?></strong></span>
                                 <?php endif; ?>
+                                
                             </li>
                         <?php endwhile; ?>
                     <?php else: ?>
