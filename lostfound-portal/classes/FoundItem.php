@@ -33,6 +33,16 @@ class FoundItem {
         $stmt->execute();
         return $stmt->get_result();
     }
+    public function isMarked ($user_id,$matched_item_id) {
+        $stmt=$this->conn->prepare("SELECT * From found_items WHERE user_id= ? AND matched_item_id= ? ");
+        $stmt->bind_param("ii",$user_id,$matched_item_id);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        return $result->num_rows > 0;
+       
+
+        
+    }
 
     // Match a found item to a lost item (optional helper)
     public function matchToLostItem($found_id, $item_id) {

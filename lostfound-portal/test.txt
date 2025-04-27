@@ -13,3 +13,14 @@
 </form>
  
 // how to silently send data without reloading page when clicking submit button
+
+dashboard backup line 80 :
+  <h3>Your Found Items</h3>
+    <a href="post_found.php">+ Report Found Item</a><br><br>
+    <ul>
+        <?php while ($item = $myFoundItems->fetch_assoc()): ?>
+            <li>
+                <strong><?php echo htmlspecialchars($item['item_name']); ?></strong>
+            </li>
+        <?php endwhile; ?>
+    </ul>

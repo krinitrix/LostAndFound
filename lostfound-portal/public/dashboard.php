@@ -27,14 +27,14 @@ $allLostItems = $lostItem->getAllOpenItems();
 <html>
 <head>
     <title>User Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/dash_popup.css">
-    
+    <!-- <link rel="stylesheet" href="../assets/css/dash_popup.css"> -->
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 <!--popup-form -->
 <div class="popup-overlay" id="popup">
   <div class="popup-container">
-    <h2>Popup Form</h2>
+    <h2>Fill the details</h2>
     <form method=POST action=found_insert.php>
       <div>
         <input type="hidden" name="item_id" id="popup-item-id">
@@ -72,41 +72,59 @@ $allLostItems = $lostItem->getAllOpenItems();
         <?php endwhile; ?>
     </ul>
 
-    <h3>Your Found Items</h3>
-    <a href="post_found.php">+ Report Found Item</a><br><br>
-    <ul>
-        <?php while ($item = $myFoundItems->fetch_assoc()): ?>
-            <li>
-                <strong><?php echo htmlspecialchars($item['item_name']); ?></strong>
-            </li>
-        <?php endwhile; ?>
-    </ul>
-
-    <h3>All Reported Lost Items</h3>
-<ul>
-    <?php while ($item = $allLostItems->fetch_assoc()): ?>
-        <li>
-            <strong><?php echo htmlspecialchars($item['item_name']); ?></strong> 
-            - Lost at: <?php echo htmlspecialchars($item['location_lost']); ?> 
-            on <?php echo htmlspecialchars($item['date_lost']); ?> 
-            (Status: <?php echo htmlspecialchars($item['status']); ?>)
-            <br>
-            description: <?php echo htmlspecialchars($item['description']); ?>)
-            <?php if ($item['status'] === 'lost'): ?>
-                <button 
-    type="button" 
-    class="open-popup-btn" 
-    data-item-id="<?php echo $item['item_id']; ?>" 
-    onclick="openPopup(this)"
->
-    Mark as Found
-</button>
-
+  
+    <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">All Reported Lost Items</h2>
+                </div>
                 
-            <?php endif; ?>
-        </li>
-    <?php endwhile; ?>
-</ul>
+                <ul class="item-list">
+                    <?php if ($allLostItems->num_rows > 0): ?>
+                        <?php while ($item = $allLostItems->fetch_assoc()): ?>
+                            <li class="item-card">
+                                <div class="item-header">
+                                    <span class="item-name"><?php echo htmlspecialchars($item['item_name']); ?></span>
+                                    <span class="item-status 
+                                        <?php if ($item['status'] === 'lost'): ?>status-lost
+                                        <?php elseif ($item['status'] === 'pending'): ?>status-pending
+                                        <?php elseif ($item['status'] === 'found'): ?>status-found
+                                        <?php else: ?>status-rejected<?php endif; ?>">
+                                        <?php 
+                                            if ($item['status'] === 'pending') {
+                                                echo 'Pending Confirmation';
+                                            } else {
+                                                echo ucfirst($item['status']);
+                                            }
+                                        ?>
+                                    </span>
+                                </div>
+                                
+                                <div class="item-details">
+                                    Lost at: <?php echo htmlspecialchars($item['location_lost']); ?>
+                                    on <?php echo htmlspecialchars($item['date_lost']); ?>
+                                </div>
+                                
+                                <div class="item-description">
+                                    <?php echo htmlspecialchars($item['description']); ?>
+                                </div>
+                                
+                                <?php if ($item['status'] === 'lost'): ?>
+                                    <button 
+                                        type="button" 
+                                        class="action-btn open-popup-btn" 
+                                        data-item-id="<?php echo $item['item_id']; ?>" 
+                                        onclick="openPopup(this)">
+                                        Mark as Found
+                                    </button>
+                                <?php endif; ?>
+                            </li>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <div class="empty-state">
+                            <p>There are no lost items reported in the system.</p>
+                        </div>
+                    <?php endif; ?>
+                </ul>
 </div>
 </body>
 </html>

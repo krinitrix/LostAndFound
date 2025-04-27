@@ -10,14 +10,22 @@ class LostItem {
     }
 
     // Post a new lost item
-    public function postLostItem($user_id, $item_name, $description, $location_lost, $date_lost) {
+    public function postLostItem($user_id, $item_name, $description, $location_lost) {
         $stmt = $this->conn->prepare(
-            "INSERT INTO lost_items (user_id, item_name, description, location_lost, date_lost, status)
-             VALUES (?, ?, ?, ?, ?, 'open')"
+            "INSERT INTO lost_items (user_id, item_name, description, location_lost)
+             VALUES (?, ?, ?, ?)"
         );
-        $stmt->bind_param("issss", $user_id, $item_name, $description, $location_lost, $date_lost);
+    
+        if (!$stmt) {
+            // If prepare fails, you can debug the SQL error
+            die("Prepare failed: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("isss", $user_id, $item_name, $description, $location_lost);
+    
         return $stmt->execute();
     }
+    
 
     // Get all lost items by a specific user
     public function getItemsByUser($user_id) {
