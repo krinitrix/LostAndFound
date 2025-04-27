@@ -37,7 +37,13 @@ class LostItem {
 
     // Get all open lost items (for searching and matching)
     public function getAllOpenItems() {
-        $stmt = $this->conn->prepare("SELECT * FROM lost_items WHERE status = 'lost' ORDER BY date_lost DESC");
+        $stmt = $this->conn->prepare("SELECT lost_items.*, users.name 
+FROM lost_items 
+JOIN users 
+ON lost_items.user_id = users.user_id 
+WHERE lost_items.status = 'lost' 
+ORDER BY lost_items.date_lost DESC;
+");
         $stmt->execute();
         return $stmt->get_result();
     }
