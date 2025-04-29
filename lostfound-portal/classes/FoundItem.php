@@ -21,7 +21,10 @@ class FoundItem {
 
     // Get all found items by a user
     public function getItemsByUser($user_id) {
-        $stmt = $this->conn->prepare("SELECT * FROM found_items WHERE user_id = ? ORDER BY date_found DESC");
+        $stmt = $this->conn->prepare("SELECT found_items.*, lost_items.item_name
+        FROM found_items
+        JOIN lost_items ON found_items.matched_item_id = lost_items.item_id
+        WHERE found_items.user_id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         return $stmt->get_result();

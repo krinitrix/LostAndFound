@@ -29,6 +29,7 @@ $allLostItems = $lostItem->getAllOpenItems();
     <title>User Dashboard</title>
     <!-- <link rel="stylesheet" href="../assets/css/dash_popup.css"> -->
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/lostItems.css">
 </head>
 <body>
 <!--popup-form -->
@@ -72,15 +73,31 @@ $allLostItems = $lostItem->getAllOpenItems();
 
     <h3>Your Lost Items</h3>
     <a href="post_lost.php">+ Report Lost Item</a><br><br>
+    
    <!-- LOST ITEMS  -->
+   <h3 class="collapsible-header" onclick="toggleSection('lostItemsList')">
+    Your Lost Items 
+    <span class="toggle-icon" id="lostItemsListToggle">[−]</span>
+</h3>
+
+<div id="lostItemsList">
     <ul>
-        <?php while ($item = $myLostItems->fetch_assoc()): ?>
-            <li>
-                <strong><?php echo htmlspecialchars($item['item_name']); ?></strong> -
-                Status: <?php echo $item['status']; ?>
-            </li>
-        <?php endwhile; ?>
+            <?php while ($item = $myFoundItems->fetch_assoc()): ?>
+                <li>
+                    <strong><?php echo htmlspecialchars($item['item_name']); ?></strong> -
+                    Status: <?php echo htmlspecialchars($item['status']); ?>
+                    <form action="handle_claim.php" method=post>
+                    <input type="hidden" name="found_id" value="<?php echo $item['found_id']; ?>">
+                    <input type="hidden" name="item_id" value="<?php echo $item['matched_item_id']; ?>">
+                    <button type="submit" name="action" value="approve">Approve</button>
+                    <button type="submit" name="action" value="reject">Reject</button>
+                    </form>
+                </li>
+            <?php endwhile; ?>
     </ul>
+</div>
+<script src="../assets/js/lostItems.js"></script>
+
     <!-- END OF LOST  -->
 
   
