@@ -54,15 +54,25 @@ $allLostItems = $lostItem->getAllOpenItems();
     <button style="margin-top:10px;" class="close-popup-btn" onclick="closePopup()">Close</button>
   </div>
 </div>
+<!-- form end -->
+ 
+<header>
+        <div class="header-content">
+            <div class="user-info">
+                <div class="user-avatar"><?php echo strtoupper(substr($name, 0, 1)); ?></div>
+                <span class="user-name">Welcome, <?php echo htmlspecialchars($name); ?>!</span>
+            </div>
+            <a href="logout.php" class="logout-btn">Logout</a>
+        </div>
+    </header>
 
-  <!-- form end -->
+  
    <div id="main-content">
-    <h2>Welcome, <?php echo htmlspecialchars($name); ?>!</h2>
-
     <a href="logout.php">Logout</a>
 
     <h3>Your Lost Items</h3>
     <a href="post_lost.php">+ Report Lost Item</a><br><br>
+   <!-- LOST ITEMS  -->
     <ul>
         <?php while ($item = $myLostItems->fetch_assoc()): ?>
             <li>
@@ -71,6 +81,7 @@ $allLostItems = $lostItem->getAllOpenItems();
             </li>
         <?php endwhile; ?>
     </ul>
+    <!-- END OF LOST  -->
 
   
     <div class="card">
