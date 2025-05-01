@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
     <h2>Login</h2>
@@ -50,5 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <input type="submit" value="Login">
     </form>
+    <label for="register"><a href="register.php">register</a></label>
 </body>
 </html>

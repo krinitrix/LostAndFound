@@ -21,6 +21,10 @@ $myFoundItems = $foundItem->getItemsByUser($user_id);
 
 //edited code
 $allLostItems = $lostItem->getAllOpenItems();
+
+
+//new for calim
+$incoming = $foundItem->getIncomingClaims($_SESSION['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +33,7 @@ $allLostItems = $lostItem->getAllOpenItems();
     <title>User Dashboard</title>
     <!-- <link rel="stylesheet" href="../assets/css/dash_popup.css"> -->
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/lostItems.css">
+    <!-- <link rel="stylesheet" href="../assets/css/lostItems.css"> -->
 </head>
 <body>
 <!--popup-form -->
@@ -69,7 +73,7 @@ $allLostItems = $lostItem->getAllOpenItems();
 
   
    <div id="main-content">
-    <a href="logout.php">Logout</a>
+    
 
     <h3>Your Lost Items</h3>
     <a href="post_lost.php">+ Report Lost Item</a><br><br>
@@ -82,15 +86,21 @@ $allLostItems = $lostItem->getAllOpenItems();
 
 <div id="lostItemsList">
     <ul>
-            <?php while ($item = $myFoundItems->fetch_assoc()): ?>
+            <?php while ($claim = $incoming->fetch_assoc()): ?>
                 <li>
-                    <strong><?php echo htmlspecialchars($item['item_name']); ?></strong> -
-                    Status: <?php echo htmlspecialchars($item['status']); ?>
+                    <strong><?php echo htmlspecialchars($claim['item_name']); ?></strong> -
+                    Location: <?php echo htmlspecialchars($claim['location_found']); ?>
+                    <?php echo htmlspecialchars($claim['description']); ?>
+                    <br>
+                    claimed by : <?php echo htmlspecialchars($claim['finder_name']); ?>
+
                     <form action="handle_claim.php" method=post>
-                    <input type="hidden" name="found_id" value="<?php echo $item['found_id']; ?>">
-                    <input type="hidden" name="item_id" value="<?php echo $item['matched_item_id']; ?>">
-                    <button type="submit" name="action" value="approve">Approve</button>
-                    <button type="submit" name="action" value="reject">Reject</button>
+                    <input type="hidden" name="found_id" value="<?php echo $claim['found_id']; ?>">
+                    <input type="hidden" name="item_id" value="<?php echo $claim['matched_item_id']; ?>">
+                    <div class="approval-buttons">
+                    <button type="submit" name="action" value="approve" class="btn-approve">Approve</button>
+                    <button type="submit" name="action" value="reject" class="btn-reject">Reject</button>
+                    </div>
                     </form>
                 </li>
             <?php endwhile; ?>
@@ -99,7 +109,7 @@ $allLostItems = $lostItem->getAllOpenItems();
 <script src="../assets/js/lostItems.js"></script>
 
     <!-- END OF LOST  -->
-
+<br>
   
     <div class="card">
                 <div class="card-header">

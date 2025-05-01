@@ -29,6 +29,30 @@ class FoundItem {
         $stmt->execute();
         return $stmt->get_result();
     }
+    //new function to get incomming calaims
+    public function getIncomingClaims($ownerId) {
+        $sql = "
+      SELECT 
+        f.found_id,
+        f.matched_item_id,
+        f.status,
+        u.name          AS finder_name,
+        u.email         AS finder_email,
+        f.location_found,
+        f.description,
+        l.item_name
+      FROM found_items AS f
+      JOIN lost_items  AS l ON f.matched_item_id    = l.item_id
+      JOIN users       AS u ON f.user_id    = u.user_id
+      WHERE l.user_id = ?      -- only claims against *your* lost items
+        AND f.status  = 'pending'
+      ORDER BY f.found_id DESC
+    ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $ownerId);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
 
     // Get all found items (for admin or browsing)
     public function getAllItems() {
