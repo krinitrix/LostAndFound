@@ -79,31 +79,66 @@ $incoming = $foundItem->getIncomingClaims($_SESSION['user_id']);
     <a href="post_lost.php">+ Report Lost Item</a><br><br>
     
    <!-- LOST ITEMS  -->
-   <h3 class="collapsible-header" onclick="toggleSection('lostItemsList')">
-    Your Lost Items 
-    <span class="toggle-icon" id="lostItemsListToggle">[−]</span>
+   <h3 class="collapsible-header" onclick="toggleSection('lostItemsList')" title="expand or collapse">
+    Claims on Your Lost Items
+    <span class="toggle-icon" id="lostItemsListToggle">−</span>
 </h3>
 
-<div id="lostItemsList">
-    <ul>
-            <?php while ($claim = $incoming->fetch_assoc()): ?>
-                <li>
-                    <strong><?php echo htmlspecialchars($claim['item_name']); ?></strong> -
-                    Location: <?php echo htmlspecialchars($claim['location_found']); ?>
+<div id="lostItemsList" class="card">
+    
+    <ul class="item-list">
+        <?php while ($claim = $incoming->fetch_assoc()): ?>
+            <li class="item-card">
+                <div class="item-header">
+                    <span class="item-name"><?php echo htmlspecialchars($claim['item_name']); ?></span>
+                    <?php 
+                    if($claim['status']=='found'){
+                        echo '<span class="item-status status-found">'.htmlspecialchars($claim['status']).'</span>';}
+                    else    {
+                    echo '<span class="item-status status-pending">'.htmlspecialchars($claim['status']).'</span>'; 
+                }
+                        ?>
+                    
+                </div>
+                
+                <div class="item-details">
+                    <strong class="location-label">Location:</strong> 
+                    <span class="location-value" title="Location"><?php echo htmlspecialchars($claim['location_found']); ?></span>
+                </div>
+                
+                <?php if(!empty($claim['description'])): ?>
+                <div class="item-description" title="description">
                     <?php echo htmlspecialchars($claim['description']); ?>
-                    <br>
-                    claimed by : <?php echo htmlspecialchars($claim['finder_name']); ?>
-
-                    <form action="handle_claim.php" method=post>
+                </div>
+                <?php endif; ?>
+                
+                <div class="finder-info">
+                    claimed by: <strong><?php echo htmlspecialchars($claim['finder_name']); ?></strong>
+                </div>
+                
+                <form action="handle_claim.php" method="post">
                     <input type="hidden" name="found_id" value="<?php echo $claim['found_id']; ?>">
                     <input type="hidden" name="item_id" value="<?php echo $claim['matched_item_id']; ?>">
                     <div class="approval-buttons">
-                    <button type="submit" name="action" value="approve" class="btn-approve">Approve</button>
-                    <button type="submit" name="action" value="reject" class="btn-reject">Reject</button>
+                    <?php if ($claim['status'] === 'pending'): ?>
+                        <button type="submit" name="action" value="approve" class="btn-approve" title="I approve the claim that this item is mine and it is found">Approve</button>
+                        <button type="submit" name="action" value="reject" class="btn-reject" title="it is not my item [Reject claim]">Reject</button>
+                    <?php elseif ($claim['status'] === 'found'): ?>
+                        <input type="image" src="../assets/images/trash.png" alt="Delete" width="45" height="45"  class="btn-delete" title="Delete this record">
+                        <div class="btn-delete-container">
+                        <input type="hidden" name="action" value="delete">
+                        </div>
+                    <?php endif; ?>
                     </div>
-                    </form>
-                </li>
-            <?php endwhile; ?>
+                </form>
+            </li>
+        <?php endwhile; ?>
+        
+        <?php if ($incoming->num_rows == 0): ?>
+            <div class="empty-state">
+                No pending item claims at this time.
+            </div>
+        <?php endif; ?>
     </ul>
 </div>
 <script src="../assets/js/lostItems.js"></script>

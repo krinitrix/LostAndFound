@@ -44,8 +44,8 @@ class FoundItem {
       FROM found_items AS f
       JOIN lost_items  AS l ON f.matched_item_id    = l.item_id
       JOIN users       AS u ON f.user_id    = u.user_id
-      WHERE l.user_id = ?      -- only claims against *your* lost items
-        AND f.status  = 'pending'
+      WHERE l.user_id = ?      
+        AND (f.status  = 'pending' OR f.status='found')
       ORDER BY f.found_id DESC
     ";
         $stmt = $this->conn->prepare($sql);
@@ -76,5 +76,13 @@ class FoundItem {
         $stmt = $this->conn->prepare("UPDATE found_items SET matched_item_id = ? WHERE found_id = ?");
         $stmt->bind_param("ii", $item_id, $found_id);
         return $stmt->execute();
+    }
+
+    public function setStatus($found_id,$status)
+    {
+        $stmt = $this->conn->prepare("UPDATE found_items SET status = ? WHERE found_id = ?");
+        $stmt->bind_param("si", $status, $found_id);
+        return $stmt->execute();
+
     }
 }

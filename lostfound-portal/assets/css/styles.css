@@ -185,6 +185,17 @@ header {
     font-weight: 600;
     text-shadow: 0 1px 0 rgba(255,255,255,0.8);
 }
+.item-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+}
+
+/* When expanded class is applied */
+.item-content.expanded {
+    max-height: 500px; /* A value large enough to contain all content */
+    transition: max-height 0.4s ease-in;
+}
 
 .item-list {
     list-style-type: none;
@@ -336,23 +347,27 @@ header {
 }
 
 /* Approval buttons */
-.btn-approve {
-    background: linear-gradient(to bottom, #6de098, #2ecc71);
-    color: white;
-    border: 1px solid rgba(46,204,113,0.3);
-    padding: 8px 18px;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 3px 10px rgba(46,204,113,0.2), 
-                inset 0 -3px 5px rgba(0,0,0,0.1),
-                inset 0 3px 3px rgba(255,255,255,0.4);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    position: relative;
-    overflow: hidden;
+    .btn-approve {
+        background: linear-gradient(to bottom, #6de098, #2ecc71);
+        color: white;
+        border: 1px solid rgba(46,204,113,0.3);
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 3px 10px rgba(46,204,113,0.2), 
+                    inset 0 -3px 5px rgba(0,0,0,0.1),
+                    inset 0 3px 3px rgba(255,255,255,0.4);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+.btn-approve:before {
+    content: "✓";
+    margin-right: 5px;
+    font-weight: bold;
 }
-
 .btn-approve::after {
     content: "";
     position: absolute;
@@ -409,11 +424,25 @@ header {
                 inset 0 3px 3px rgba(255,255,255,0.4);
     transform: translateY(-2px);
 }
+/* .btn-delete-container {
+    display: grid;
+    justify-content: end;
+    align-items: end;
+  } */
 
+  
 .approval-buttons {
     display: flex;
     gap: 10px;
     margin-top: 12px;
+    
+}
+.btn-delete{
+    margin-left: 90%;
+    
+    filter: invert(00%) sepia(100%) saturate(300%) hue-rotate(-40deg);
+      
+      
 }
 
 /* Collapsible header styling */
@@ -441,7 +470,12 @@ h3.collapsible-header:hover {
     box-shadow: 0 3px 12px rgba(56, 177, 232, 0.15), 
                 inset 0 1px 0 rgba(255,255,255,0.8);
 }
-
+h3.collapsible-header:before {
+    content: "🔍";
+    margin-right: 10px;
+    font-size: 20px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+}
 /* Icon styling */
 h3.collapsible-header span.toggle-icon {
     font-weight: bold;
@@ -457,6 +491,8 @@ h3.collapsible-header span.toggle-icon {
     border: 1px solid rgba(186, 226, 252, 0.8);
     border-top: none;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+
     margin-bottom: 20px;
 }
 
@@ -620,16 +656,19 @@ h3.collapsible-header span.toggle-icon {
 }
 
 .empty-state {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.5));
+    padding: 25px;
+    border-radius: var(--border-radius);
     text-align: center;
-    padding: 40px 20px;
-    color: #777;
+    color: #888;
     font-style: italic;
-    background-color: rgba(255,255,255,0.5);
-    border-radius: 8px;
-    border: 1px dashed #ccc;
+    border: 1px dashed rgba(56, 177, 232, 0.3);
+    box-shadow: inset 0 1px 5px rgba(0,0,0,0.02);
+    margin: 15px 0;
 }
 
 .finder-info {
+    /* position: relative; */
     margin-top: 8px;
     font-size: 13px;
     color: #666;

@@ -1,4 +1,4 @@
-console.log("lostitems test")
+
 function toggleSection(id) {
     const section = document.getElementById(id);
     const toggle = document.getElementById(id + 'Toggle');
@@ -12,3 +12,10 @@ function toggleSection(id) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Add transition effects to toggle icons
+    const toggleIcons = document.querySelectorAll('.toggle-icon');
+    toggleIcons.forEach(icon => {
+        icon.style.transition = 'transform 0.4s ease-in-out';
+    });
+});
