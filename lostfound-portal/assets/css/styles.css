@@ -725,3 +725,16 @@ h3.collapsible-header span.toggle-icon {
     margin: 0 auto;
     padding: 20px;
 }
+#load-anim {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+.loading-message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}

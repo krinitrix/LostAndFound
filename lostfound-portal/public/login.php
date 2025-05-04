@@ -3,6 +3,8 @@ session_start();
 require_once __DIR__ . '/../classes/User.php';
 
 $message = "";
+$showLoading = false;
+$redirectUrl = ""; // initialize for later use
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
@@ -12,22 +14,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $loginResult = $user->login($email, $password);
 
     if ($loginResult) {
-        $_SESSION['user_id'] = $loginResult['user_id'];
-        $_SESSION['name'] = $loginResult['name'];
-        $_SESSION['role'] = $loginResult['role'];
-
-        // Redirect to dashboard or admin panel
-        if ($loginResult['role'] === 'admin') {
-            header("Location: admin/dashboard.php");
+        if ($loginResult['banned']) {
+            $message = "You Are Banned";
         } else {
-            header("Location: dashboard.php");
+            $_SESSION['user_id'] = $loginResult['user_id'];
+            $_SESSION['name'] = $loginResult['name'];
+            $_SESSION['role'] = $loginResult['role'];
+
+            $showLoading = true;
+            $redirectUrl = ($loginResult['role'] === 'admin') ? "admin/index.php" : "dashboard.php";
         }
-        exit;
     } else {
         $message = "Invalid email or password!";
     }
 }
 ?>
+
+
 
 <!-- Simple HTML Form -->
 <!DOCTYPE html>
@@ -38,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h2>Login</h2>
+
     <?php if ($message): ?>
         <p style="color:red;"><?php echo $message; ?></p>
     <?php endif; ?>
@@ -51,6 +55,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <input type="submit" value="Login">
     </form>
-    <label for="register"><a href="register.php">register</a></label>
+
+    <label for="register"><a href="register.php">Register</a></label>
+
+    <?php if ($showLoading): ?>
+    <div id="load-anim">
+        <img src="../assets/images/loading.gif" alt="Logging in..." width="100" height="100">
+        <div class="loading-message">Logging you in... Please wait</div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = "<?php echo $redirectUrl; ?>";
+        }, 1000);
+    </script>
+    <?php endif; ?>
 </body>
 </html>

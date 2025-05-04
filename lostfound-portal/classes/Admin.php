@@ -15,6 +15,7 @@ class Admin {
         $stmt->bind_param("i",$user_id);
         return($stmt->execute());
      }
+     //unban
      public function unbanUser($user_id)
      {
         $stmt=$this->conn->prepare("UPDATE users SET banned=0 WHERE user_id=?");
