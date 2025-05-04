@@ -16,17 +16,23 @@ echo "<table BORDER=2>
         </tr>";
 while ($users = $result->fetch_assoc()) {
     $banStatus=$users['banned'];
-    $btn=($banStatus===1)?"<button class'unban'>Unban</button>":"<button class'ban'>Ban User</button>";
+    $btn=($banStatus===1)?"Unban":"Ban";
 
     echo "  
         <tr>
             <td>".$users['name']."</td>
             <td>".$users['email']."</td>
             <td>".$users['role']."</td>
-            <td>".$btn."</td>
+            <td>
+<form action=handle_ban.php method=post>            
+            <button type=submit class=".strtolower($btn)."-button VALUE=".strtolower($btn)." name=action>".$btn."</button></td>
+            <input type=hidden name=user_id value=".$users['user_id'].">
+            
+</form>
         </tr>";
 }
 echo "</table>";
+
 
 
 

@@ -8,6 +8,21 @@ class Admin {
         $db = new Database();
         $this->conn = $db->connect();
     }
+    //BAN
+     public function banUser($user_id)
+     {
+        $stmt=$this->conn->prepare("UPDATE users SET banned= 1 WHERE user_id= ? ");
+        $stmt->bind_param("i",$user_id);
+        return($stmt->execute());
+     }
+     public function unbanUser($user_id)
+     {
+        $stmt=$this->conn->prepare("UPDATE users SET banned=0 WHERE user_id=?");
+        $stmt->bind_param("i",$user_id);
+        return($stmt->execute());
+     }
+
+
 
     // Get all users
     public function getAllUsers() {
