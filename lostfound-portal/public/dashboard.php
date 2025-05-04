@@ -75,8 +75,8 @@ $incoming = $foundItem->getIncomingClaims($_SESSION['user_id']);
    <div id="main-content">
     
 
-    <h3>Your Lost Items</h3>
-    <a href="post_lost.php">+ Report Lost Item</a><br><br>
+    <h3>You lost something?</h3>
+    <a href="post_lost.php">+ Report here</a><br><br>
     
    <!-- LOST ITEMS  -->
    <h3 class="collapsible-header" onclick="toggleSection('lostItemsList')" title="expand or collapse">
@@ -121,8 +121,8 @@ $incoming = $foundItem->getIncomingClaims($_SESSION['user_id']);
                     <input type="hidden" name="item_id" value="<?php echo $claim['matched_item_id']; ?>">
                     <div class="approval-buttons">
                     <?php if ($claim['status'] === 'pending'): ?>
-                        <button type="submit" name="action" value="approve" class="btn-approve" title="I approve the claim that this item is mine and it is found">Approve</button>
-                        <button type="submit" name="action" value="reject" class="btn-reject" title="it is not my item [Reject claim]">Reject</button>
+                        <button type="submit" name="action" value="approve" class="btn-approve" title="My item is found">Approve</button>
+                        <button type="submit" name="action" value="reject" class="btn-reject" title="Reject cliam">Reject</button>
                     <?php elseif ($claim['status'] === 'found'): ?>
                         <input type="image" src="../assets/images/trash.png" alt="Delete" width="45" height="45"  class="btn-delete" title="Delete this record">
                         <div class="btn-delete-container">

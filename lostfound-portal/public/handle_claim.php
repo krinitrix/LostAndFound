@@ -58,7 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     alert('Claim Rejected');
     window.location.href = 'dashboard.php';
 </script>";
-        } else {
+        }elseif ($action==='delete'){
+
+
+
+
+            
+        }
+         else {
             echo "<script>
     alert('Error Rejecting claim');
     window.location.href = 'dashboard.php';

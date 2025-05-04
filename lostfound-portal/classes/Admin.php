@@ -11,7 +11,7 @@ class Admin {
 
     // Get all users
     public function getAllUsers() {
-        $stmt = $this->conn->prepare("SELECT user_id, name, email, role FROM users WHERE role = 'student'");
+        $stmt = $this->conn->prepare("SELECT user_id, name, email,banned, role FROM users WHERE role = 'student'");
         $stmt->execute();
         return $stmt->get_result();
     }
