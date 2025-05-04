@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <input type="submit" value="Login">
     </form>
-
-    <label for="register"><a href="register.php">Register</a></label>
+<br>
+    <label for="register"><a href="register.php">Not have an account ? Register here</a></label>
 
     <?php if ($showLoading): ?>
     <div id="load-anim">
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         setTimeout(() => {
             window.location.href = "<?php echo $redirectUrl; ?>";
-        }, 1000);
+        }, 500);
     </script>
     <?php endif; ?>
 </body>
