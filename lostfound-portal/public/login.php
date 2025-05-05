@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role'] = $loginResult['role'];
 
             $showLoading = true;
-            $redirectUrl = ($loginResult['role'] === 'admin') ? "admin/.php" : "dashboard.php";
+            $redirectUrl = ($loginResult['role'] === 'admin') ? "admin/index.php" : "dashboard.php";
         }
     } else {
         $message = "Invalid email or password!";
