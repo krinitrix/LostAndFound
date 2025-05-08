@@ -14,6 +14,11 @@ echo "<table BORDER=2>
             <th>Another Head</th>
             <th>Action</th>
         </tr>";
+
+echo '
+    <title>Admin Panel</title>
+    <link rel="stylesheet" type="text/css" href="admin.css">';
+
 while ($users = $result->fetch_assoc()) {
     $banStatus=$users['banned'];
     $btn=($banStatus===1)?"Unban":"Ban";
